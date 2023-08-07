@@ -9,7 +9,7 @@ RUN sed -i -e 's/# en_US.UTF-8 UTF-8/en_US.UTF-8 UTF-8/' /etc/locale.gen && \
 
 
 RUN	apt-get -y install --reinstall ca-certificates && \
-	apt-get -y install --no-install-recommends lib32gcc-s1 && \
+	apt-get -y install --no-install-recommends lib32gcc-s1 wget && \
 	rm -rf /var/lib/apt/lists/*
 
 
