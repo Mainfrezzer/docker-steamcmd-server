@@ -1,11 +1,20 @@
-FROM ich777/debian-baseimage
+FROM ubuntu:22.04
 
-LABEL org.opencontainers.image.authors="admin@minenet.at"
-LABEL org.opencontainers.image.source="https://github.com/ich777/docker-steamcmd-server"
+RUN apt-get update && DEBIAN_FRONTEND=noninteractive apt-get install -y locales
+
+RUN sed -i -e 's/# en_US.UTF-8 UTF-8/en_US.UTF-8 UTF-8/' /etc/locale.gen && \
+    dpkg-reconfigure --frontend=noninteractive locales && \
+    update-locale LANG=en_US.UTF-8
+
+ENV LANG en_US.UTF-8
+
 
 RUN apt-get update && \
+	apt-get -y install --reinstall ca-certificates && \
 	apt-get -y install --no-install-recommends lib32gcc-s1 && \
 	rm -rf /var/lib/apt/lists/*
+
+
 
 ENV DATA_DIR="/serverdata"
 ENV STEAMCMD_DIR="${DATA_DIR}/steamcmd"
@@ -27,12 +36,12 @@ ENV PASSWRD=""
 ENV USER="steam"
 ENV DATA_PERM=770
 
+
 RUN mkdir $DATA_DIR && \
 	mkdir $STEAMCMD_DIR && \
 	mkdir $SERVER_DIR && \
 	useradd -d $DATA_DIR -s /bin/bash $USER && \
-	chown -R $USER $DATA_DIR && \
-	ulimit -n 1000000
+	chown -R $USER $DATA_DIR
 
 ADD /scripts/ /opt/scripts/
 RUN chmod -R 770 /opt/scripts/
