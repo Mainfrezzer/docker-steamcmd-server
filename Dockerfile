@@ -1,21 +1,17 @@
 FROM ubuntu:22.04
 
 RUN apt-get update && DEBIAN_FRONTEND=noninteractive apt-get install -y locales
-
 RUN sed -i -e 's/# en_US.UTF-8 UTF-8/en_US.UTF-8 UTF-8/' /etc/locale.gen && \
     dpkg-reconfigure --frontend=noninteractive locales && \
     update-locale LANG=en_US.UTF-8
 
-ENV LANG en_US.UTF-8
 
-
-RUN apt-get update && \
-	apt-get -y install --reinstall ca-certificates && \
+RUN	apt-get -y install --reinstall ca-certificates && \
 	apt-get -y install --no-install-recommends lib32gcc-s1 && \
 	rm -rf /var/lib/apt/lists/*
 
 
-
+ENV LANG en_US.UTF-8
 ENV DATA_DIR="/serverdata"
 ENV STEAMCMD_DIR="${DATA_DIR}/steamcmd"
 ENV SERVER_DIR="${DATA_DIR}/serverfiles"
