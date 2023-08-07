@@ -1,5 +1,7 @@
 FROM ubuntu:22.04
 
+LABEL org.opencontainers.image.source="https://github.com/mainfrezzer/docker-steamcmd-server"
+
 RUN apt-get update && DEBIAN_FRONTEND=noninteractive apt-get install -y locales
 RUN sed -i -e 's/# en_US.UTF-8 UTF-8/en_US.UTF-8 UTF-8/' /etc/locale.gen && \
     dpkg-reconfigure --frontend=noninteractive locales && \
